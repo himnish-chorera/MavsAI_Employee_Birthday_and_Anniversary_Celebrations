@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; margin: 0; padding: 40px; }
+    .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+    .hero { background: #8cdffa; padding: 50px 40px; text-align: center; }
+    .badge { background: rgba(0,0,0,0.1); color: #0f172a; padding: 6px 16px; border-radius: 30px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-block; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.1); }
+    .hero h1 { margin: 0; font-size: 36px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+    .hero p { color: #1e293b; font-size: 17px; margin-top: 12px; margin-bottom: 0; font-weight: 500; }
+    .content { padding: 40px; }
+    .section-title { font-size: 20px; font-weight: 800; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+    .title-bday { color: #475569; }
+    .title-anni { color: #09090b; }
+    .item-row { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); border-left: 6px solid #6366f1; }
+    .item-row-dark { background: #09090b; border: 1px solid #27272a; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); border-left: 6px solid #facc15; }
+    .icon-box { width: 56px; height: 56px; border-radius: 16px; display: inline-block; text-align: center; line-height: 56px; font-size: 26px; }
+    .bg-light { background: #e0e7ff; }
+    .bg-dark-icon { background: rgba(250, 204, 21, 0.15); }
+    .text-wrap { padding-left: 20px; }
+    .name { font-size: 18px; font-weight: 700; color: #1e293b; margin: 0 0 4px 0; }
+    .name-dark { font-size: 18px; font-weight: 700; color: #ffffff; margin: 0 0 4px 0; }
+    .sub { font-size: 14px; color: #64748b; margin: 0; font-weight: 400; }
+    .sub-dark { font-size: 14px; color: #a1a1aa; margin: 0; font-weight: 400; }
+    .pill { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-top: 10px; }
+    .pill-light { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+    .pill-yellow { background: #facc15; color: #09090b; }
+    .divider { height: 1px; background: #e2e8f0; margin: 35px 0; }
+    .footer { text-align: center; padding: 24px; background: #f8fafc; color: #94a3b8; font-size: 13px; border-top: 1px solid #e2e8f0; }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <div class="badge">Daily Pulse</div>
+            <h1>Good morning!</h1>
+            <p>Let's celebrate the amazing people who make our team great.</p>
+        </div>
+        <div class="content">
+            {{DYNAMIC_CONTENT}}
+        </div>
+        <div class="footer">Automated HR Updates &bull; Please do not reply</div>
+    </div>
+</body>
+</html>

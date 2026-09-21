@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Automated Birthday and Anniversary Email System using AWS Lambda, EventBridge, and SES.'
+
+Parameters:
+  TenantId:
+    Type: String
+    Description: 'Microsoft Entra ID Tenant ID'
+  ClientId:
+    Type: String
+    Description: 'Microsoft Entra ID Client ID'
+  ClientSecret:
+    Type: String
+    NoEcho: true
+    Description: 'Microsoft Entra ID Client Secret'
+  DriveId:
+    Type: String
+    Description: 'SharePoint/OneDrive Drive ID'
+  ItemId:
+    Type: String
+    Description: 'Excel File Item ID'
+  SheetName:
+    Type: String
+    Default: 'Sheet1'
+  SenderEmail:
+    Type: String
+    Description: 'Verified Amazon SES Sender Email'
+  RecipientEmail:
+    Type: String
+    Description: 'Target Email Address or Group List'
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: SESSendEmailPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: ses:SendEmail
+                Resource: '*'
+
+  BirthdayBotFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: CorporateBirthdayAnniversaryBot
+      Runtime: python3.12
+      Handler: lambda_function.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 30
+      Environment:
+        Variables:
+          TENANT_ID: !Ref TenantId
+          CLIENT_ID: !Ref ClientId
+          CLIENT_SECRET: !Ref ClientSecret
+          DRIVE_ID: !Ref DriveId
+          ITEM_ID: !Ref ItemId
+          SHEET_NAME: !Ref SheetName
+          SENDER_EMAIL: !Ref SenderEmail
+          RECIPIENT_EMAIL: !Ref RecipientEmail
+      Code:
+        ZipFile: |
+          import json
+          def lambda_handler(event, context):
+              return {
+                  'statusCode': 200,
+                  'body': json.dumps('Please overwrite this with the provided python code and add email_template.html')
+              }
+
+  DailyTriggerRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: DailyCorporatePulseCheck
+      ScheduleExpression: cron(30 3 * * ? *)
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt BirthdayBotFunction.Arn
+          Id: BirthdayBotTarget
+
+  PermissionForEventsToInvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref BirthdayBotFunction
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt DailyTriggerRule.Arn
